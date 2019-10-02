@@ -94,6 +94,17 @@ const templateOptions = {
     },
 };
 
+const packageJsons = {
+    'codewind-test': path.resolve(__dirname, '../package.json'),
+    initialize: path.resolve(__dirname, '../../src/initialize/package.json'),
+    'performance-server': path.resolve(__dirname, '../../src/performance/package.json'),
+    'performance-loadrunner': path.resolve(__dirname, '../../src/performance/loadrunner/package.json'),
+    'performance-dashboard': path.resolve(__dirname, '../../src/performance/dashboard/package.json'),
+    'file-watcher': path.resolve(__dirname, '../../src/pfe/file-watcher/server/package.json'),
+    'pfe-initialize': path.resolve(__dirname, '../../src/pfe/initialize/package.json'),
+    'codewind-portal': path.resolve(__dirname, '../../src/pfe/portal/package.json'),
+};
+
 
 module.exports = {
     CODEWIND_URL,
@@ -113,4 +124,5 @@ module.exports = {
     MOCK_LOADTEST_DIR,
     pathToApiSpec,
     templateOptions,
+    packageJsons,
 };
