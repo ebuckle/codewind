@@ -12,8 +12,6 @@
 
 const performCheck = require('codewind-license-checker').performCheck;
 const allPackageJsonPaths = require('../config/index').packageJsons;
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
 const fs = require('fs-extra');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
@@ -21,6 +19,7 @@ const exec = util.promisify(require('child_process').exec);
 describe('perform license check on package.json', function() {
     this.timeout(240000);
     before(async function() {
+        // Update for new eclipse data and whitelist
         await exec('npm install https://github.com/ebuckle/codewind-license-checker.git');
     });
     for (const key in allPackageJsonPaths) {
