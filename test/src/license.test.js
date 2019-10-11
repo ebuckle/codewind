@@ -12,19 +12,13 @@
 
 const allPackageJsonPaths = require('../config/index').packageJsons;
 const fs = require('fs-extra');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
 const path = require('path');
 const mlog = require('mocha-logger');
 const chai = require('chai');
-let performCheck = null;
+const performCheck = require('../modules/license.service').performCheck;
 
 describe('check node package licenses', function() {
     this.timeout('5m');
-    before(async function() {
-        await exec('npm install https://github.com/ebuckle/codewind-license-checker.git');
-        performCheck = require('codewind-license-checker').performCheck;
-    });
 
     for (const key in allPackageJsonPaths) {
         const packageJsonPath = path.resolve(allPackageJsonPaths[key], 'package.json');
@@ -39,17 +33,17 @@ describe('check node package licenses', function() {
             it('perform license check', async function() {
                 const results = await performCheck(packageJson, packageLockJson);
                 chai.expect(results).to.not.equals(null);
-                if (results.unclearedPackages === {}) {
-                    mlog.log('Contains no uncleared packages.');
+                if (Object.keys(results.unclearedPackages).length === 0) {
+                    mlog.success('Contains no uncleared packages.');
                 } else {
-                    mlog.log('WARN - Contains packages that have not yet been approved:');
+                    mlog.error('WARN - Contains packages that have not yet been approved:');
                     mlog.log(JSON.stringify(results.unclearedPackages, null, 2));
                 }
         
-                if (results.problemPackages === {}) {
-                    mlog.log('Contains no problematic packages');
+                if (Object.keys(results.problemPackages).length === 0) {
+                    mlog.success('Contains no problematic packages');
                 } else {
-                    mlog.log('ERR - Could contain problematic packages');
+                    mlog.error('ERR - Could contain problematic packages');
                     mlog.log(JSON.stringify(results.problemPackages, null, 2));
                 }
             });
