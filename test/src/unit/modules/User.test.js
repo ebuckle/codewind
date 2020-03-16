@@ -354,6 +354,10 @@ describe('User.js', () => {
             });
             user.uiSocket.emit.should.have.been.calledWithExactly('runloadStatusChanged', {
                 projectID: project.projectID,
+                status: 'cancelling',
+            });
+            user.uiSocket.emit.should.have.been.calledWithExactly('runloadStatusChanged', {
+                projectID: project.projectID,
                 status: 'cancelled',
             });
             responseCode.should.equal(200);
